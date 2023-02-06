@@ -6,7 +6,6 @@ def search(n,m,x,y,r,c,k):
     stack = [[(x,y),0,'']]
     
     while stack:
-        print(stack)
         loc, dis, st = stack.pop(0)
         x,y = loc
            
@@ -16,6 +15,14 @@ def search(n,m,x,y,r,c,k):
         #거리가 k보다 크다면 탐색 실패이므로 종료
         if dis > k:
             return 'impossible'
+
+        #남은 거리 안에 도착하지 못한다면 continue
+        short_dis = abs(r-x) + abs(c-y)
+        if short_dis > (k-dis):
+            continue
+        #도착 불가 상태일 경우 continue
+        if short_dis%2 != (k-dis)%2:
+            continue
         
         if x < n:
             stack.append([(x+1,y),dis+1,st+'d'])
