@@ -7,11 +7,23 @@
 """
 
 
+def changNum(num,flag,flag0):
+    return num[:flag0] + '110' + num[flag0:flag] + num[flag+3:]
+
 def findNum(num: int):
     flag = 0
-    for i in range(len(num)):
-        if num[i:i+3] == '110':
-            if flag == 0:
-                pass
-            else:
-                
+    flag0 = -1
+    while flag < (len(num)-2):
+        print(num,flag,flag0)
+        if num[flag:flag+3] == '110':
+            num = changNum(num,flag,flag0+1)
+            flag = flag0+2
+            flag0 = flag
+        elif num[flag] == '0':
+            flag0 = flag
+        flag += 1
+    
+    return num
+
+num = input()
+print(findNum(num))
