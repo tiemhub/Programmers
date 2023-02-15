@@ -39,7 +39,12 @@ def findNum(num: int):
         flag += 1
 
     #문자열을 돌면서 적절한 위치를 찾아 cnt만큼 110을 삽입
+    # 1. 연속되 11 앞에 삽입 -> 가장 정석적이나 예외 처리가 필요함
+    # 길이가 1일 때, 0이면 1, 1이면 0
+    # 길이가 2일 때, 00이면 2, 10이면 2, 01이면 1, 11이면 0
+    # 길이가 3일 때, 000이면 3, 001이면 2, 010이면 3, 011이면 1, 100이면 3, 
     flag = 0
+    flag0 = -1
     doubled = False
     while flag < len(num):
         if num[flag] == '1':
@@ -48,7 +53,14 @@ def findNum(num: int):
                 break
             else:
                 doubled = True
+        else:
+            flag0 = flag
         flag += 1
+    else:
+        if flag0 == -1:
+            pass
+        else:
+            flag = flag0
     
     num = num[:flag] + '110'*cnt + num[flag:]
     return num
