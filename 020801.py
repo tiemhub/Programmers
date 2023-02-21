@@ -46,7 +46,7 @@ def findNum(num: int):
     flag = 0
     flag0 = -1
     doubled = False
-    while flag < len(num):
+    while flag < len(num)-1:
         if num[flag] == '1':
             if doubled:
                 flag = max(0,flag-1)
@@ -61,6 +61,9 @@ def findNum(num: int):
             pass
         else:
             flag = flag0
+    
+    if num == '1':
+        flag = 0
     
     num = num[:flag] + '110'*cnt + num[flag:]
     return num
