@@ -11,6 +11,27 @@ visited 데이터 갱신을 이동하는 즉시가 아닌, 이동 이후 자신�
 
 """
 
+def bfs(board, aloc, bloc, turn, cnt):
+    #실패조건이 있는가
+
+    dxs = [0,1,0,-1]
+    dys = [1,0,-1,0]
+    if turn == 0:
+        for dx in dxs:
+            for dy in dys:
+                if board[aloc[0]+dy][aloc[1]+dx] == 1:
+                    board[aloc[0]][aloc[1]] == 0 #이동했으므로 발판 삭제
+                    bfs(board, [aloc[0]+dy,aloc[1]+dx],bloc,1,cnt+1)
+                    board[aloc[0]][aloc[1]] == 1
+    else:
+        for dx in dxs:
+            for dy in dys:
+                if board[bloc[0]+dy][bloc[1]+dx] == 1:
+                    board[bloc[0]][bloc[1]] == 0 #이동했으므로 발판 삭제
+                    bfs(board, aloc,[bloc[0]+dy,bloc[1]+dx],1,cnt+1)
+                    board[bloc[0]][bloc[1]] == 1
+
+
 def solution(board, aloc, bloc):
     answer = -1
     
