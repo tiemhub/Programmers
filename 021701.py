@@ -35,6 +35,7 @@ def findNum(num):
                 doubled = True
         else:
             flag0 = i
+            double = False
         print(flag,flag0,doubled)
     else:
         if flag0 != -1:

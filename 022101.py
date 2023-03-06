@@ -11,34 +11,48 @@ visited 데이터 갱신을 이동하는 즉시가 아닌, 이동 이후 자신�
 
 """
 
-def bfs(board, aloc, bloc, turn, cnt):
+def bfs(board, aloc, bloc, turn, cnt, val):
     #실패조건이 있는가
+    #(이동가능&같은위치) | 이동불가
+    if aloc == bloc: #같은 위치 판정을 위한 변수
+        isSameLoc = True
+    else:
+        isSameLoc = False
+    canMove = False #이동했는지의 여부를 통해 이동불가를 판정
 
+    #탐색
     dxs = [0,1,0,-1]
     dys = [1,0,-1,0]
     if turn == 0:
         for dx in dxs:
             for dy in dys:
                 if board[aloc[0]+dy][aloc[1]+dx] == 1:
+                    if isSameLoc:
+                        return (cnt+1)
                     board[aloc[0]][aloc[1]] == 0 #이동했으므로 발판 삭제
-                    bfs(board, [aloc[0]+dy,aloc[1]+dx],bloc,1,cnt+1)
+                    val = max(val,bfs(board, [aloc[0]+dy,aloc[1]+dx],bloc,1,cnt+1))
                     board[aloc[0]][aloc[1]] == 1
+                    canMove = True
     else:
         for dx in dxs:
             for dy in dys:
                 if board[bloc[0]+dy][bloc[1]+dx] == 1:
+                    if isSameLoc:
+                        return (cnt+1)
                     board[bloc[0]][bloc[1]] == 0 #이동했으므로 발판 삭제
-                    bfs(board, aloc,[bloc[0]+dy,bloc[1]+dx],1,cnt+1)
+                    val = max(val,bfs(board, aloc,[bloc[0]+dy,bloc[1]+dx],1,cnt+1))
                     board[bloc[0]][bloc[1]] == 1
+                    canMove = True
+    
+    if not canMove: #이번 탐색에서 움직이지 못했다면 종료
+        return cnt
+    #탐색 완료&실패조건x -> val 유지
+    return val
 
 
 def solution(board, aloc, bloc):
     answer = -1
     
-    visited = [False for _ in range(len(board[0]))]*len(board)
-    visited[aloc[0],aloc[1]] = True
-    visited[bloc[0],bloc[1]] = True
-
-
+    answer = bfs(board,aloc,bloc,0,0,-1)
 
     return answer
